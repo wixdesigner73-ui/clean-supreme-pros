@@ -1,5 +1,5 @@
 import { BIZ, icon, btn, ambient, foam, sparkle, bubble, plx, wave, heroArt, sectionHead, ctaBand } from './components.mjs';
-import { cleanerCharacter } from './character.mjs';
+import { cleanerCutout } from './character.mjs';
 import { sweepStrip, wipeSection } from './interactive.mjs';
 
 const img = (name, alt, w, h, extra = '') =>
@@ -87,10 +87,10 @@ export const home = () => ({
       <div data-reveal style="--i:4">${btn('More About Us', 'about.html', { variant: 'teal', ic: 'user' })}</div>
     </div>
     <div class="about-sec__art" data-reveal="zoom" data-parallax-scope>
-      ${cleanerCharacter()}
-      ${plx(bubble('float', 46), { x: '4%', y: '58%', depth: 0.08 })}
+      ${cleanerCutout()}
+      ${plx(bubble('float', 46), { x: '-6%', y: '12%', depth: 0.08 })}
       ${plx(bubble('float-slow', 28, '#F56F63'), { x: '88%', y: '30%', depth: 0.06 })}
-      ${plx(foam('float-slow'), { x: '86%', y: '76%', depth: 0.05 })}
+      ${plx(foam('float-slow'), { x: '88%', y: '4%', depth: 0.05 })}
     </div>
   </div>
 </section>
