@@ -1,4 +1,5 @@
-import { BIZ, icon, btn, ambient, foam, sparkle, bubble, plx, wave, heroArt, cleanerCharacter, sectionHead, ctaBand } from './components.mjs';
+import { BIZ, icon, btn, ambient, foam, sparkle, bubble, plx, wave, heroArt, sectionHead, ctaBand } from './components.mjs';
+import { cleanerCharacter } from './character.mjs';
 import { sweepStrip, wipeSection } from './interactive.mjs';
 
 const img = (name, alt, w, h, extra = '') =>
