@@ -1,4 +1,5 @@
-import { BIZ, icon, btn, confetti, swirl, sparkle, bubble, plx, wave, heroArt, cleanerCharacter, sectionHead, ctaBand } from './components.mjs';
+import { BIZ, icon, btn, ambient, foam, sparkle, bubble, plx, wave, heroArt, cleanerCharacter, sectionHead, ctaBand } from './components.mjs';
+import { sweepStrip, wipeSection } from './interactive.mjs';
 
 const img = (name, alt, w, h, extra = '') =>
   `<img src="assets/img/${name}.jpg" width="${w}" height="${h}" alt="${alt}" loading="lazy" decoding="async" ${extra}>`;
@@ -30,7 +31,7 @@ export const home = () => ({
   body: `
 <!-- HERO -->
 <section class="hero" aria-labelledby="hero-title">
-  ${confetti({ seed: 3, n: 34, zone: 'edges' })}
+  ${ambient({ seed: 3, n: 34, zone: 'edges' })}
   <div class="wrap hero__grid">
     <div class="hero__copy">
       <p class="eyebrow" data-reveal>Professional Cleaning Services</p>
@@ -51,12 +52,13 @@ export const home = () => ({
 
 <!-- GOAL & PURPOSE -->
 <section class="section goal" aria-labelledby="goal-title">
+  ${sweepStrip(3)}
   <div class="wrap goal__grid">
     <div class="goal__cards">
       ${[
-        ['card-detail', 'Gloved hand wiping a clean white surface after spraying', 'search', 'Attention to Detail'],
+        ['card-detail', 'Yellow-gloved hand scrubbing a mirror with a sponge', 'search', 'Attention to Detail'],
         ['card-quality', 'Bright, spotless modern bathroom with glass shower', 'sparkle', 'Quality Cleaning'],
-        ['card-dependable', 'Cordless vacuum cleaning a carpet', 'shield', 'Dependable Service'],
+        ['card-dependable', 'Cleaning team in coral overalls with vacuum cleaners and a mop bucket', 'shield', 'Dependable Service'],
       ].map(([f, alt, ic, label], i) => `
       <figure class="tall-card" data-reveal style="--i:${i}">
         ${img(f, alt, 800, 1100)}
@@ -74,7 +76,7 @@ export const home = () => ({
 
 <!-- ABOUT -->
 <section class="section about-sec" aria-labelledby="about-title">
-  ${confetti({ seed: 11, n: 16, zone: 'edges' })}
+  ${ambient({ seed: 11, n: 16, zone: 'edges' })}
   <div class="wrap about-sec__grid">
     <div class="about-sec__copy">
       <p class="eyebrow" data-reveal>A Little About Us</p>
@@ -87,16 +89,18 @@ export const home = () => ({
       ${cleanerCharacter()}
       ${plx(bubble('float', 46), { x: '4%', y: '58%', depth: 0.08 })}
       ${plx(bubble('float-slow', 28, '#F56F63'), { x: '88%', y: '30%', depth: 0.06 })}
-      ${plx(swirl('spin-slow'), { x: '86%', y: '76%', depth: 0.05 })}
+      ${plx(foam('float-slow'), { x: '86%', y: '76%', depth: 0.05 })}
     </div>
   </div>
 </section>
 
+${wipeSection()}
+
 <!-- BANNER -->
 <section class="banner" aria-labelledby="banner-title">
-  ${confetti({ seed: 21, n: 30 })}
-  ${plx(swirl('spin-slow'), { x: '9%', y: '24%', depth: 0.06 })}
-  ${plx(swirl('spin-slow rev', '#F56F63'), { x: '86%', y: '54%', depth: -0.06 })}
+  ${ambient({ seed: 21, n: 30 })}
+  ${plx(foam('float-slow'), { x: '9%', y: '24%', depth: 0.06 })}
+  ${plx(foam('float','#F56F63'), { x: '86%', y: '54%', depth: -0.06 })}
   ${plx(sparkle('twinkle', '#F6C945', 34), { x: '20%', y: '70%', depth: 0.08 })}
   <svg class="banner__lines" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true"><path class="draw" d="M-20 268C200 226 380 300 600 262S1000 232 1220 276" fill="none" stroke="#2CA9B7" stroke-opacity=".3" stroke-width="3" stroke-linecap="round"/></svg>
   <div class="wrap banner__in">
@@ -129,7 +133,7 @@ export const home = () => ({
 
 <!-- WHY CHOOSE US -->
 <section class="section why" aria-labelledby="why-title">
-  ${confetti({ seed: 31, n: 18, zone: 'edges' })}
+  ${ambient({ seed: 31, n: 18, zone: 'edges' })}
   <div class="wrap">
     ${sectionHead({ label: 'Why Choose Us', title: 'The Clean Supreme Pros <span class="hl">Difference</span>', center: true }).replace('<h2>', '<h2 id="why-title">')}
     ${featureGrid()}
@@ -171,7 +175,7 @@ export const about = () => ({
   description: 'Meet Clean Supreme Pros — a professional home and office cleaning service in North Miami Beach, Florida, built on attention to detail, quality work, and a positive client experience.',
   body: `
 <section class="hero hero--page" aria-labelledby="page-title">
-  ${confetti({ seed: 8, n: 28, zone: 'edges' })}
+  ${ambient({ seed: 8, n: 28, zone: 'edges' })}
   <div class="wrap hero__grid">
     <div class="hero__copy">
       <p class="eyebrow" data-reveal>About Us</p>
@@ -183,7 +187,7 @@ export const about = () => ({
     <div class="duo" data-parallax-scope>
       <svg class="duo__blob" viewBox="0 0 520 520" aria-hidden="true"><path class="blob-a" fill="#2CA9B7" d="M270 16c96 4 198 70 214 166 14 84-38 120-40 198-2 80-90 134-182 130C158 506 66 460 38 372 12 290 66 240 64 172 62 90 168 12 270 16z"/></svg>
       <div class="duo__a">${img('about-living', 'Sunlit, tidy living room with a leather sofa and plants', 1200, 800, 'loading="eager"')}</div>
-      <div class="duo__b">${img('mint-spray', 'Gloved hand holding a yellow spray bottle against a mint background', 1200, 800, 'loading="eager"')}</div>
+      <div class="duo__b">${img('about-broom', 'Broom and dustpan sweeping a wooden floor', 1200, 900, 'loading="eager"')}</div>
       <div class="chip chip--float float duo__chip">${icon('heart')}<b>Genuine care</b><small>in every visit</small></div>
       ${plx(sparkle('twinkle', '#F6C945', 38), { x: '90%', y: '8%', depth: 0.08 })}
       ${plx(bubble('float', 44), { x: '-3%', y: '70%', depth: 0.06 })}
@@ -193,7 +197,8 @@ export const about = () => ({
 </section>
 
 <!-- OUR STORY -->
-<section class="section split" aria-labelledby="story-title">
+<section class="section split has-sweep" aria-labelledby="story-title">
+  ${sweepStrip(9)}
   <div class="wrap split__grid">
     <div class="split__media" data-reveal="left">
       <span class="shape shape--teal" aria-hidden="true"></span>
@@ -210,7 +215,7 @@ export const about = () => ({
 
 <!-- OUR APPROACH -->
 <section class="section approach" aria-labelledby="approach-title">
-  ${confetti({ seed: 14, n: 18, zone: 'edges' })}
+  ${ambient({ seed: 14, n: 18, zone: 'edges' })}
   <div class="wrap">
     ${sectionHead({ label: 'Our Approach', title: 'Simple, Careful, <span class="hl">Personal.</span>', center: true }).replace('<h2>', '<h2 id="approach-title">')}
     <div class="steps steps--3">
@@ -252,7 +257,7 @@ export const about = () => ({
 
 <!-- WHY CLIENTS CHOOSE US -->
 <section class="section why" aria-labelledby="why-title">
-  ${confetti({ seed: 32, n: 18, zone: 'edges' })}
+  ${ambient({ seed: 32, n: 18, zone: 'edges' })}
   <div class="wrap">
     ${sectionHead({ label: 'Why Clients Choose Us', title: 'The Clean Supreme Pros <span class="hl">Difference</span>', center: true }).replace('<h2>', '<h2 id="why-title">')}
     ${featureGrid()}
@@ -273,7 +278,7 @@ export const services = () => ({
   description: 'Residential and office cleaning in North Miami Beach, FL from Clean Supreme Pros. Attentive, detail-focused service for homes and workplaces. Request a quote.',
   body: `
 <section class="hero hero--page" aria-labelledby="page-title">
-  ${confetti({ seed: 18, n: 28, zone: 'edges' })}
+  ${ambient({ seed: 18, n: 28, zone: 'edges' })}
   <div class="wrap hero__grid">
     <div class="hero__copy">
       <p class="eyebrow" data-reveal>Our Services</p>
@@ -284,7 +289,7 @@ export const services = () => ({
     <div class="duo duo--svc" data-parallax-scope>
       <svg class="duo__blob" viewBox="0 0 520 520" aria-hidden="true"><path class="blob-a" fill="#2CA9B7" d="M250 14c100-6 210 58 226 160 14 90-40 122-36 200 4 84-84 136-184 132C152 502 60 458 36 366 14 282 70 236 66 170 62 88 152 20 250 14z"/></svg>
       <div class="duo__a">${img('apartment', 'Bright, tidy apartment living area with a sofa and kitchen', 1200, 800, 'loading="eager"')}</div>
-      <div class="duo__b">${img('office-team', 'Team working together around a table in a bright office', 1200, 800, 'loading="eager"')}</div>
+      <div class="duo__b">${img('team-orange', 'Cleaning team in coral overalls standing in a bright living space', 1200, 784, 'loading="eager"')}</div>
       <div class="chip chip--float float duo__chip">${icon('home')}<b>Home</b><small>&amp; office</small></div>
       ${plx(sparkle('twinkle', '#F6C945', 38), { x: '90%', y: '8%', depth: 0.08 })}
       ${plx(bubble('float', 44), { x: '-3%', y: '72%', depth: 0.06 })}
@@ -298,7 +303,7 @@ export const services = () => ({
   <div class="wrap split__grid">
     <div class="split__media" data-reveal="left" data-parallax-scope>
       <span class="shape shape--teal" aria-hidden="true"></span>
-      <div class="frame">${img('service-home', 'Bright living room with hardwood floors, a fireplace, and a sectional sofa', 1200, 800)}</div>
+      <div class="frame">${img('res-bathroom', 'Yellow-gloved hand wiping a bathroom counter with a cloth', 1200, 800)}</div>
       <span class="svc-icon">${icon('home', 'ic-anim')}</span>
       ${plx(bubble('float', 48), { x: '90%', y: '60%', depth: 0.07 })}
     </div>
@@ -314,7 +319,7 @@ export const services = () => ({
 
 <!-- OFFICE -->
 <section class="section svc-block svc-block--alt" id="office" aria-labelledby="off-title">
-  ${confetti({ seed: 41, n: 18, zone: 'edges' })}
+  ${ambient({ seed: 41, n: 18, zone: 'edges' })}
   <div class="wrap split__grid split__grid--rev">
     <div class="split__copy">
       <p class="eyebrow" data-reveal>Service 02</p>
@@ -325,7 +330,7 @@ export const services = () => ({
     </div>
     <div class="split__media" data-reveal="right" data-parallax-scope>
       <span class="shape shape--coral" aria-hidden="true"></span>
-      <div class="frame frame--alt">${img('service-office', 'Modern open office with floor-to-ceiling windows and a conference table', 1200, 800)}</div>
+      <div class="frame frame--alt">${img('off-cleaner', 'Cleaner in coral overalls cleaning large office windows', 1100, 1650, 'style="object-position:50% 62%"')}</div>
       <span class="svc-icon svc-icon--coral">${icon('building', 'ic-anim')}</span>
       ${plx(sparkle('twinkle', '#F6C945', 36), { x: '2%', y: '6%', depth: 0.07 })}
     </div>
@@ -370,7 +375,7 @@ export const contact = () => ({
   description: "Request a cleaning quote from Clean Supreme Pros in North Miami Beach, FL. Call (786) 327-6919 or send a message about your home or office cleaning needs.",
   body: `
 <section class="hero hero--page hero--compact" aria-labelledby="page-title">
-  ${confetti({ seed: 28, n: 26, zone: 'edges' })}
+  ${ambient({ seed: 28, n: 26, zone: 'edges' })}
   <div class="wrap hero__grid hero__grid--center">
     <div class="hero__copy">
       <p class="eyebrow" data-reveal>Contact</p>
@@ -388,7 +393,7 @@ export const contact = () => ({
 </section>
 
 <section class="section contact" id="quote" aria-labelledby="form-title">
-  ${confetti({ seed: 52, n: 20, zone: 'edges' })}
+  ${ambient({ seed: 52, n: 20, zone: 'edges' })}
   <div class="wrap contact__grid">
     <aside class="contact__info" data-reveal="left">
       <div class="info-card">

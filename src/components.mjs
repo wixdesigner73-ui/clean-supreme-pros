@@ -50,45 +50,42 @@ export const btn = (label, href, { variant = 'coral', ic = '', attrs = '' } = {}
   `<a class="btn btn--${variant}" href="${href}" ${attrs}><span>${label}</span>${ic ? icon(ic) : ''}</a>`;
 
 /* ------------------------------------------------------------ decorations */
-const COLORS = ['#2CA9B7', '#F56F63', '#F6C945', '#2CA9B7', '#F56F63', '#9AD5DC'];
-
 function rng(seed) {
   let s = seed >>> 0;
   return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296);
 }
 
-const SHAPES = {
-  dot: (c) => `<circle cx="8" cy="8" r="3.2" fill="${c}"/>`,
-  ring: (c) => `<circle cx="8" cy="8" r="4.6" fill="none" stroke="${c}" stroke-width="2"/>`,
-  dash: (c) => `<path d="M3 8h10" stroke="${c}" stroke-width="2.6" stroke-linecap="round"/>`,
-  plus: (c) => `<path d="M8 3v10M3 8h10" stroke="${c}" stroke-width="2.2" stroke-linecap="round"/>`,
-  wave: (c) => `<path d="M1.5 9c2-4 3.5-4 5-1s3 3 4.5-1" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round"/>`,
-  star: (c) => `<path d="M8 1.5c.4 3.4 1.9 4.9 5.3 5.3-3.4.4-4.9 1.9-5.3 5.3-.4-3.4-1.9-4.9-5.3-5.3C6.1 6.4 7.6 4.9 8 1.5z" fill="${c}"/>`,
-};
+const bubbleSvg = (size, c) =>
+  `<svg class="am am--b" viewBox="0 0 40 40" width="${size}" height="${size}"><circle cx="20" cy="20" r="17" fill="${c}" fill-opacity=".1" stroke="${c}" stroke-width="1.8"/><path d="M11 17a9 9 0 0 1 7-7" fill="none" stroke="${c}" stroke-opacity=".7" stroke-width="2.6" stroke-linecap="round"/></svg>`;
+const sparkSvg = (size, c) =>
+  `<svg class="am am--s" viewBox="0 0 24 24" width="${size}" height="${size}"><path d="M12 1c.9 6.6 3.9 9.6 11 11-7.1 1.4-10.1 4.4-11 11-.9-6.6-3.9-9.6-11-11C8.1 10.6 11.1 7.6 12 1z" fill="${c}"/></svg>`;
+const dropSvg = (size, c) =>
+  `<svg class="am am--d" viewBox="0 0 16 16" width="${size}" height="${size}"><path d="M8 1.5S2.5 8 2.5 11a5.5 5.5 0 0 0 11 0C13.5 8 8 1.5 8 1.5z" fill="${c}" fill-opacity=".75"/><path d="M5.6 11a2.5 2.5 0 0 0 1.8 2.3" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>`;
 
-/** Scatter small confetti shapes across a positioned parent. Purely decorative. */
-export function confetti({ seed = 1, n = 26, zone = null } = {}) {
+/** Ambient cleaning decor: floating soap bubbles, sparkles and water droplets. Purely decorative. */
+export function ambient({ seed = 1, n = 14, zone = null } = {}) {
   const r = rng(seed * 9301 + 49297);
-  const kinds = Object.keys(SHAPES);
-  let out = '<div class="confetti" aria-hidden="true">';
-  for (let i = 0; i < n; i++) {
+  let out = '<div class="ambient" aria-hidden="true">';
+  const count = Math.ceil(n * 0.55);
+  for (let i = 0; i < count; i++) {
     let x = r() * 100;
-    let y = r() * 100;
-    if (zone === 'edges') x = r() < 0.5 ? r() * 16 : 84 + r() * 16; // keep text column clear
-    const k = kinds[Math.floor(r() * kinds.length)];
-    const c = COLORS[Math.floor(r() * COLORS.length)];
-    const size = 10 + Math.floor(r() * 12);
-    const rot = Math.floor(r() * 360);
-    const dur = 5 + r() * 6;
-    const delay = -r() * 8;
-    out += `<svg class="cf" viewBox="0 0 16 16" width="${size}" height="${size}" style="left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;--rot:${rot}deg;--dur:${dur.toFixed(1)}s;--delay:${delay.toFixed(1)}s">${SHAPES[k](c)}</svg>`;
+    const y = r() * 100;
+    if (zone === 'edges') x = r() < 0.5 ? r() * 9 : 91 + r() * 9; // keep the text column clear
+    const t = r();
+    const dur = (6 + r() * 6).toFixed(1);
+    const delay = (-r() * 8).toFixed(1);
+    let svg;
+    if (t < 0.55) svg = bubbleSvg(16 + Math.floor(r() * 34), r() < 0.8 ? '#2CA9B7' : '#7CC9D3');
+    else if (t < 0.82) svg = sparkSvg(12 + Math.floor(r() * 14), r() < 0.6 ? '#F6C945' : '#2CA9B7');
+    else svg = dropSvg(12 + Math.floor(r() * 8), '#2CA9B7');
+    out += svg.replace('<svg ', `<svg style="left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;--dur:${dur}s;--delay:${delay}s" `);
   }
   return out + '</div>';
 }
 
-/** Big hand-drawn spiral swirl (as in the reference) */
-export const swirl = (cls = '', color = '#142D35') =>
-  `<svg class="swirl ${cls}" viewBox="0 0 60 60" aria-hidden="true"><path d="M30 31c-1-3 2-5 4-4 4 2 3 8-1 10-6 3-13-1-13-8 0-9 9-14 17-11 10 4 11 18 3 24" fill="none" stroke="${color}" stroke-width="2.2" stroke-linecap="round"/></svg>`;
+/** A little cluster of soap suds */
+export const foam = (cls = '', color = '#2CA9B7') =>
+  `<svg class="foam ${cls}" viewBox="0 0 80 64" aria-hidden="true"><g fill="${color}" fill-opacity=".1" stroke="${color}" stroke-width="2"><circle cx="26" cy="38" r="20"/><circle cx="56" cy="24" r="14"/><circle cx="58" cy="50" r="9"/></g><path d="M14 32a14 14 0 0 1 10-10M50 18a8 8 0 0 1 6-4" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/></svg>`;
 
 export const sparkle = (cls = '', color = '#F6C945', size = 28) =>
   `<svg class="sparkle ${cls}" viewBox="0 0 24 24" width="${size}" height="${size}" aria-hidden="true"><path d="M12 1c.9 6.6 3.9 9.6 11 11-7.1 1.4-10.1 4.4-11 11-.9-6.6-3.9-9.6-11-11C8.1 10.6 11.1 7.6 12 1z" fill="${color}"/></svg>`;
@@ -112,15 +109,15 @@ export const heroArt = () => `
     <path class="blob-a" fill="url(#gb)" d="M262 18c92-6 205 52 232 150 26 94-24 142-30 226-6 86-96 150-196 146C174 536 64 490 32 394 2 306 40 246 52 176 68 88 160 24 262 18z"/>
     <path class="blob-b" fill="#fff" fill-opacity=".16" d="M300 60c60 6 138 52 150 118 12 64-28 90-34 150-6 60-62 110-128 110s-130-52-142-112c-12-62 24-90 30-148 8-70 70-124 124-118z"/>
   </svg>
-  <div class="hero-photo"><img src="assets/img/hero-cleaner.jpg" width="1100" height="1650" alt="Cleaner in yellow gloves wiping down window shutters in a bright home" fetchpriority="high"></div>
+  <div class="hero-photo"><img src="assets/img/hero-cleaner.jpg" width="1200" height="800" alt="Smiling cleaner in blue gloves holding a spray bottle and cleaning cloth in a bright home" fetchpriority="high"></div>
   ${plx(`<div class="chip chip--float float">${icon('sparkle')}<b>Spotless</b><small>every visit</small></div>`, { x: '-4%', y: '62%', depth: 0.07, cls: 'plx--chip' })}
   ${plx(`<div class="chip chip--float float-slow chip--coral">${icon('shield')}<b>Careful</b><small>detail focus</small></div>`, { x: '76%', y: '82%', depth: -0.05, cls: 'plx--chip' })}
   ${plx(sparkle('twinkle', '#F6C945', 40), { x: '2%', y: '8%', depth: 0.09 })}
   ${plx(sparkle('twinkle d2', '#fff', 26), { x: '86%', y: '12%', depth: 0.06 })}
   ${plx(bubble('float', 54), { x: '90%', y: '44%', depth: 0.1 })}
   ${plx(bubble('float-slow', 30, '#F56F63'), { x: '-2%', y: '40%', depth: 0.05 })}
-  ${plx(swirl('spin-slow'), { x: '78%', y: '-4%', depth: 0.05 })}
-  <svg class="dots-grid" viewBox="0 0 80 80" aria-hidden="true">${Array.from({ length: 25 }, (_, i) => `<circle cx="${8 + (i % 5) * 16}" cy="${8 + Math.floor(i / 5) * 16}" r="2.2" fill="#F56F63"/>`).join('')}</svg>
+  ${plx(foam('float-slow'), { x: '78%', y: '-4%', depth: 0.05 })}
+  <div class="pop-field">${[[8,18,46],[88,30,38],[4,74,30],[92,68,52],[46,-2,28],[70,92,34],[20,92,26]].map(([x,y,sz],k)=>`<span class="pop" style="left:${x}%;top:${y}%;--sz:${sz}px;--d:${k*0.7}s" data-pop></span>`).join('')}</div>
 </div>`;
 
 /* ------------------------------------- cleaner character w/ spray bottle */
@@ -227,7 +224,7 @@ export const footer = () => `
 <footer class="site-footer">
   ${wave('#F8F7EE')}
   <div class="site-footer__body">
-    ${confetti({ seed: 77, n: 16, zone: 'edges' })}
+    ${ambient({ seed: 77, n: 16, zone: 'edges' })}
     <div class="wrap footer-grid">
       <div class="footer-brand" data-reveal>
         <a class="logo" href="index.html" aria-label="Clean Supreme Pros — home">
@@ -261,10 +258,10 @@ export const footer = () => `
 /* ----------------------------------------------------------- shared CTA */
 export const ctaBand = ({ title = 'Ready for a Fresh, Beautifully Clean Space?', text = "Tell us what you need cleaned, and let's discuss how Clean Supreme Pros can help." } = {}) => `
 <section class="cta" aria-labelledby="cta-title">
-  ${confetti({ seed: 5, n: 22 })}
+  ${ambient({ seed: 5, n: 22 })}
   ${plx(sparkle('twinkle', '#F6C945', 46), { x: '8%', y: '18%', depth: 0.06 })}
   ${plx(bubble('float', 70, '#fff'), { x: '88%', y: '22%', depth: 0.08 })}
-  ${plx(swirl('spin-slow', '#fff'), { x: '80%', y: '70%', depth: 0.05 })}
+  ${plx(foam('float-slow', '#fff'), { x: '80%', y: '70%', depth: 0.05 })}
   <div class="wrap cta__in">
     <div data-reveal>
       <h2 id="cta-title">${title}</h2>
@@ -322,6 +319,7 @@ ${footer()}
 <script src="js/config.js"></script>
 <script src="js/reviews.js"></script>
 <script src="js/main.js"></script>
+<script src="js/clean.js"></script>
 </body>
 </html>
 `;
