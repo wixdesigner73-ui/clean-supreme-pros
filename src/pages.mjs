@@ -88,7 +88,7 @@ export const home = () => ({
     </div>
     <div class="about-sec__art" data-reveal="zoom" data-parallax-scope>
       ${cleanerCutout()}
-      ${plx(bubble('float', 46), { x: '-6%', y: '12%', depth: 0.08 })}
+      ${plx(bubble('float', 46), { x: '-2%', y: '18%', depth: 0.08 })}
       ${plx(bubble('float-slow', 28, '#F56F63'), { x: '88%', y: '30%', depth: 0.06 })}
       ${plx(foam('float-slow'), { x: '88%', y: '4%', depth: 0.05 })}
     </div>
